@@ -1,4 +1,3 @@
-
 version: 2.1
 
 orbs:
@@ -26,14 +25,15 @@ commands:
             sudo apt update && sudo apt install << parameters.bazel-version >>
 
 jobs:
-  build:
+  unit-test:
     parameters:
       bazel-version:
-        description: "Pinned Bazel version Replace with your one"
+        description: "Pinned Bazel version"
         default: "bazel-8.2.1"
         type: string
-    docker:
-      - image: circleci/android:api-35
+    executor:
+      name: android/android_docker
+      tag: 2025.03.1
     steps:
       - checkout
       - android/accept_licenses
@@ -41,15 +41,44 @@ jobs:
           bazel-version: <<parameters.bazel-version>>
       - run:
           name: Run tests
-          command: << parameters.bazel-version >> test //app/src:unit_tests # Depending on your Bazel package and target
+          command: << parameters.bazel-version >> test //src/main/java/com/example/bazel:all
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/bazel-testlogs/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+
+  build:
+    parameters:
+      bazel-version:
+        description: "Pinned Bazel version"
+        default: "bazel-8.2.1"
+        type: string
+    executor:
+      name: android/android_docker
+      tag: 2025.03.1
+    steps:
+      - checkout
+      - android/accept_licenses
+      - setup-bazel:
+          bazel-version: <<parameters.bazel-version>>
       - run:
           name: Run build
-          command: << parameters.bazel-version >> build //app/src:app # Depending on your Bazel package and target
-      - store_test_results:
-          path: ~/project/bazel-testlogs/app/src/unit_tests
+          command: << parameters.bazel-version >> build //src/main:app
       - store_artifacts:
-          path: ~/project/bazel-testlogs/app/src/unit_tests
+          path: ~/project/bazel-bin/src/main/app.apk
       - store_artifacts:
-          path: ~/project/bazel-bin/app/src/app.apk
-      - store_artifacts:
-          path: ~/project/bazel-bin/app/src/app_unsigned.apk
+          path: ~/project/bazel-bin/src/main/app_unsigned.apk
+
+workflows:
+  test-and-build:
+    jobs:
+      - unit-test
+      - build:
+          requires:
+            - unit-test
