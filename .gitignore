@@ -1,0 +1,99 @@
+# Bazel files
+bazel-*
+.bazelrc.user
+.bazelversion
+bazel-out/
+bazel-bin/
+bazel-testlogs/
+bazel-genfiles/
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+.gradle/
+build/
+local.properties
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+gen/
+bin/
+out/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android NDK
+obj/
+libs/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (Firebase)
+google-services.json
+
+# Fabric plugin
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Log files
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Version control
+.svn/
+.hg/
+.bzr/
+
+# IDE files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Profiling
+*.prof

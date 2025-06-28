@@ -1,0 +1,24 @@
+module(
+    name = "basicapp",
+)
+
+bazel_dep(name = "rules_java", version = "8.12.0")
+bazel_dep(name = "bazel_skylib", version = "1.7.1")
+
+bazel_dep(
+    name = "rules_android",
+    version = "0.6.4",
+)
+
+remote_android_extensions = use_extension(
+    "@rules_android//bzlmod_extensions:android_extensions.bzl",
+    "remote_android_tools_extensions")
+use_repo(remote_android_extensions, "android_gmaven_r8", "android_tools")
+
+android_sdk_repository_extension = use_extension("@rules_android//rules/android_sdk_repository:rule.bzl", "android_sdk_repository_extension")
+android_sdk_repository_extension.configure(
+    path = "/Users/vivekmaskara/Library/Android/sdk",
+)
+use_repo(android_sdk_repository_extension, "androidsdk")
+
+register_toolchains("@androidsdk//:sdk-toolchain", "@androidsdk//:all")
