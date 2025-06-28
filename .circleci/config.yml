@@ -1,0 +1,55 @@
+
+version: 2.1
+
+orbs:
+  android: circleci/android@3.1.0
+
+commands:
+  setup-bazel:
+    description: |
+      Setup the Bazel build system used for building Android projects
+    parameters:
+      bazel-version:
+        type: string
+        default: "bazel"
+    steps:
+      - run:
+          name: Add Bazel Apt repository
+          command: |
+            sudo apt install curl gnupg
+            curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+            sudo mv bazel.gpg /etc/apt/trusted.gpg.d/
+            echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+      - run:
+          name: Install Bazel from Apt
+          command: | 
+            sudo apt update && sudo apt install << parameters.bazel-version >>
+
+jobs:
+  build:
+    parameters:
+      bazel-version:
+        description: "Pinned Bazel version Replace with your one"
+        default: "bazel-8.2.1"
+        type: string
+    docker:
+      - image: circleci/android:api-35
+    steps:
+      - checkout
+      - android/accept-licenses
+      - setup-bazel:
+          bazel-version: <<parameters.bazel-version>>
+      - run:
+          name: Run tests
+          command: << parameters.bazel-version >> test //app/src:unit_tests # Depending on your Bazel package and target
+      - run:
+          name: Run build
+          command: << parameters.bazel-version >> build //app/src:app # Depending on your Bazel package and target
+      - store_test_results:
+          path: ~/project/bazel-testlogs/app/src/unit_tests
+      - store_artifacts:
+          path: ~/project/bazel-testlogs/app/src/unit_tests
+      - store_artifacts:
+          path: ~/project/bazel-bin/app/src/app.apk
+      - store_artifacts:
+          path: ~/project/bazel-bin/app/src/app_unsigned.apk
