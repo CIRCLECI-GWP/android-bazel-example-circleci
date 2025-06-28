@@ -36,7 +36,7 @@ jobs:
       - image: circleci/android:api-35
     steps:
       - checkout
-      - android/accept-licenses
+      - android/accept_licenses
       - setup-bazel:
           bazel-version: <<parameters.bazel-version>>
       - run:
