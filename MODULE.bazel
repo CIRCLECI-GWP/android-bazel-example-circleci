@@ -16,9 +16,9 @@ remote_android_extensions = use_extension(
 use_repo(remote_android_extensions, "android_gmaven_r8", "android_tools")
 
 android_sdk_repository_extension = use_extension("@rules_android//rules/android_sdk_repository:rule.bzl", "android_sdk_repository_extension")
-android_sdk_repository_extension.configure(
-    path = "/Users/vivekmaskara/Library/Android/sdk",
-)
+# Use environment variable ANDROID_HOME if set, otherwise default to local path
+# This allows CI to override the path without changing the MODULE.bazel file
+android_sdk_repository_extension.configure()
 use_repo(android_sdk_repository_extension, "androidsdk")
 
 register_toolchains("@androidsdk//:sdk-toolchain", "@androidsdk//:all")

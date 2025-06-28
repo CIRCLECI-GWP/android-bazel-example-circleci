@@ -189,7 +189,7 @@
     "@@rules_android+//rules/android_sdk_repository:rule.bzl%android_sdk_repository_extension": {
       "general": {
         "bzlTransitiveDigest": "NAy+0M15JNVEBb8Tny6t7j3lKqTnsAMjoBB6LJ+C370=",
-        "usagesDigest": "rcRPAQof2aExGONSfMI4gxDVwW8tdVfhWAkVwaw75Jc=",
+        "usagesDigest": "sg1XiGC1R19ah7HcfUkTKbl2yixxZ+UaUr9KXYSbVBY=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -199,7 +199,7 @@
             "attributes": {
               "api_level": 0,
               "build_tools_version": "",
-              "path": "/Users/vivekmaskara/Library/Android/sdk"
+              "path": ""
             }
           }
         },
