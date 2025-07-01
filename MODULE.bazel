@@ -10,6 +10,21 @@ bazel_dep(
     version = "0.6.4",
 )
 
+# Maven dependencies for testing
+bazel_dep(name = "rules_jvm_external", version = "6.6")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "junit:junit:4.13.2",
+        "org.assertj:assertj-core:3.24.2",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+use_repo(maven, "maven")
+
 remote_android_extensions = use_extension(
     "@rules_android//bzlmod_extensions:android_extensions.bzl",
     "remote_android_tools_extensions")
