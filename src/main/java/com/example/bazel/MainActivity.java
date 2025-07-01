@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
     Button clickMeButton = findViewById(R.id.clickMeButton);
     TextView helloBazelTextView = findViewById(R.id.helloBazelTextView);
 
-    Greeter greeter = new Greeter();
+    Greeter greeter = new Greeter("Bazel");
 
     // Bazel supports Java 8 language features like lambdas!
     clickMeButton.setOnClickListener(v -> helloBazelTextView.setText(greeter.sayHello()));
