@@ -41,7 +41,7 @@ jobs:
           bazel-version: <<parameters.bazel-version>>
       - run:
           name: Run tests
-          command: << parameters.bazel-version >> test //src/main/java/com/example/bazel:all
+          command: << parameters.bazel-version >> test //src/test:all
       - run:
           name: Save test results
           command: |
